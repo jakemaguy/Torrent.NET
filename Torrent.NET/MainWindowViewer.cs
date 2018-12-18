@@ -53,9 +53,11 @@ namespace TorrentDotNet
 
         private void AddTorrentFileButton_Click(object sender, EventArgs e)
         {
-            var openfile = new OpenFileDialog();
-            openfile.Filter = "Torrent Files|*.torrent";
-            openfile.Title = "Select Torrent File";
+            var openfile = new OpenFileDialog
+            {
+                Filter = "Torrent Files|*.torrent",
+                Title = "Select Torrent File"
+            };
             openfile.ShowDialog();
 
             var parser = new BencodeParser();
@@ -64,12 +66,6 @@ namespace TorrentDotNet
             var addTorrent = new AddTorrentDialog();
 
             var drive = new DriveInfo("C");
-
-            // Must Enter In the HTTP response into this field
-            // this is my testing announce file created by manually conncting to the server via google chrome
-            var test = parser.Parse<BDictionary>("C:\\Users\\jmaguy\\source\\repos\\Torrent.NET\\Torrent.NET\\bin\\Debug\\announce");
-
-            
             
             // Formatting Labels
             ((Label)addTorrent.Controls["TorrentSizeLabel"]).Text = Formatter.BytesToEnglish(torrent.TotalSize) + " (Space Left on drive: " + Formatter.BytesToEnglish(drive.AvailableFreeSpace) + ")";
@@ -84,9 +80,6 @@ namespace TorrentDotNet
             // Only One File Exists
             if (torrent.Files == null)
             {
-                //var DataGrid = addTorrent.TorrentFilesView;
-
-                //Insertion.InsertInDataGrid(addTorrent.TorrentFilesView, torrent.File);
                 var item = new ListViewItem(new string[] { T.FileName, Formatter.BytesToEnglish(T.FileSize), "Normal" });
                 //var test = item.SubItems;
                 listview.Items.Add(item);
